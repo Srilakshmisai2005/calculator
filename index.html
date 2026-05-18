@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Page title -->
+  <header class="page-header">
+    <h1>Calculator</h1>
+  </header>
+
+  <!-- Layout wrapper: calculator type (top), calculator (middle), history (bottom) -->
+  <main class="layout">
+    <!-- Category list dropdown (top) -->
+    <aside class="category-panel">
+      <h2>Calculator Type</h2>
+      <label for="calcType">Choose calculator:</label>
+      <select id="calcType">
+        <option value="basic">Basic Calculator</option>
+        <option value="scientific">Scientific Calculator</option>
+        <option value="gpa">GPA Calculator</option>
+        <option value="bmi">BMI Calculator</option>
+        <option value="emi">EMI / Loan Calculator</option>
+        <option value="tax">Tax Calculator</option>
+        <option value="statistical">Statistical Calculator</option>
+        <option value="construction">Construction Calculator</option>
+        <option value="converter">Unit Converter</option>
+        <option value="interest">Interest Calculator</option>
+        <option value="age">Age Calculator</option>
+      </select>
+    </aside>
+
+    <!-- Active calculator -->
+    <section class="calculator-panel">
+      <!-- BASIC CALCULATOR -->
+      <div id="basic" class="calc-section">
+        <h2>Basic Calculator</h2>
+
+        <div class="calculator">
+          <input
+            type="text"
+            id="display"
+            class="display"
+            value="0"
+            readonly
+          />
+
+          <div class="buttons">
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button onclick="appendValue('/')">/</button>
+
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="appendValue('*')">×</button>
+
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="appendValue('-')">-</button>
+
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="appendValue('.')">.</button>
+            <button onclick="appendValue('+')">+</button>
+            <button class="backspace" onclick="backspace()">⌫</button>
+          </div>
+
+          <div class="bottom-buttons">
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="equal" onclick="calculate()">=</button>
+          </div>
+        </div>
+      </div>
+
+               <!-- SCIENTIFIC CALCULATOR -->
+      <div id="scientific" class="calc-section hidden">
+        <h2>Scientific Calculator</h2>
+
+        <div class="calculator">
+          <!-- display for expression -->
+          <input
+            type="text"
+            id="sciExpression"
+            class="display"
+            placeholder="Enter expression or use buttons"
+           value="0"
+          />
+
+          <!-- angle mode -->
+          <div style="margin-bottom: 10px; text-align: right;">
+            <label for="sciAngleMode" style="margin-right: 8px; font-size: 14px;">Angle:</label>
+            <select id="sciAngleMode" style="padding: 4px 6px; border-radius: 6px;">
+              <option value="deg">Degrees</option>
+              <option value="rad">Radians</option>
+            </select>
+          </div>
+
+          <!-- buttons grid, similar to basic calculator -->
+          <div class="buttons">
+            <!-- Row 1 -->
+            <button onclick="insertSci('7')">7</button>
+            <button onclick="insertSci('8')">8</button>
+            <button onclick="insertSci('9')">9</button>
+            <button onclick="insertSci('/')">/</button>
+
+            <!-- Row 2 -->
+            <button onclick="insertSci('4')">4</button>
+            <button onclick="insertSci('5')">5</button>
+            <button onclick="insertSci('6')">6</button>
+            <button onclick="insertSci('*')">×</button>
+
+            <!-- Row 3 -->
+            <button onclick="insertSci('1')">1</button>
+            <button onclick="insertSci('2')">2</button>
+            <button onclick="insertSci('3')">3</button>
+            <button onclick="insertSci('-')">-</button>
+
+            <!-- Row 4 -->
+            <button onclick="insertSci('0')">0</button>
+            <button onclick="insertSci('.')">.</button>
+            <button onclick="insertSci('+')">+</button>
+            <button onclick="insertSci('^')">x^y</button>
+
+            <!-- Row 5 (functions) -->
+            <button onclick="insertSci('sin(')">sin</button>
+            <button onclick="insertSci('cos(')">cos</button>
+            <button onclick="insertSci('tan(')">tan</button>
+            <button onclick="insertSci('sqrt(')">√</button>
+
+            <!-- Row 6 (more functions) -->
+            <button onclick="insertSci('log(')">log</button>
+            <button onclick="insertSci('ln(')">ln</button>
+            <button onclick="insertSci('pi')">π</button>
+            <button onclick="insertSci('e')">e</button>
+          </div>
+
+          <!-- bottom buttons like basic -->
+          <div class="bottom-buttons">
+            <button class="clear" onclick="clearSci()">C</button>
+            <button class="equal" onclick="calculateSci()">=</button>
+          </div>
+
+          <!-- result box -->
+          <input
+            type="text"
+            id="sciResult"
+            class="display"
+            style="margin-top: 10px;"
+            readonly
+          />
+        </div>
+      </div>
+      <!-- GPA CALCULATOR -->
+      <div id="gpa" class="calc-section hidden">
+        <h2>GPA Calculator</h2>
+        <div class="small-form">
+          <p><strong>Method 1: Each course (grade + credits)</strong></p>
+          <p>You can use letters (S, A, B, C, D, F) or numeric points. Defaults: S=5, A=4, B=3, C=2, D=1, F=0.</p>
+
+          <div id="gpaCourses"></div>
+
+          <button onclick="addCourseRow()">Add Course</button>
+          <button onclick="calculateGPA()">Calculate GPA (Method 1)</button>
+
+          <hr style="margin: 14px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);" />
+
+          <p><strong>Method 2: Total number of each grade</strong></p>
+          <p>Enter how many courses got S, A, B, C, D, F and the credits per course (optional). If credits are empty, defaults S=5, A=4, B=3, C=2, D=1, F=0 are used for points and 1 credit per course.</p>
+
+          <label for="countS">Number of S grades:</label>
+          <input type="number" id="countS" min="0" />
+
+          <label for="creditS">Credits per S course (optional):</label>
+          <input type="number" id="creditS" step="0.1" />
+
+          <label for="countA">Number of A grades:</label>
+          <input type="number" id="countA" min="0" />
+
+          <label for="creditA">Credits per A course (optional):</label>
+          <input type="number" id="creditA" step="0.1" />
+
+          <label for="countB">Number of B grades:</label>
+          <input type="number" id="countB" min="0" />
+
+          <label for="creditB">Credits per B course (optional):</label>
+          <input type="number" id="creditB" step="0.1" />
+
+          <label for="countC">Number of C grades:</label>
+          <input type="number" id="countC" min="0" />
+
+          <label for="creditC">Credits per C course (optional):</label>
+          <input type="number" id="creditC" step="0.1" />
+
+          <label for="countD">Number of D grades:</label>
+          <input type="number" id="countD" min="0" />
+
+          <label for="creditD">Credits per D course (optional):</label>
+          <input type="number" id="creditD" step="0.1" />
+
+          <label for="countF">Number of F grades:</label>
+          <input type="number" id="countF" min="0" />
+
+          <label for="creditF">Credits per F course (optional):</label>
+          <input type="number" id="creditF" step="0.1" />
+
+          <button onclick="calculateGPAByCounts()">Calculate GPA (Method 2)</button>
+
+          <p id="gpaResult"></p>
+        </div>
+      </div>
+        <!-- BMI CALCULATOR -->
+      <div id="bmi" class="calc-section hidden">
+        <h2>BMI Calculator</h2>
+        <div class="small-form">
+          <label for="bmiWeight">Weight (kg):</label>
+          <input type="number" id="bmiWeight" step="0.1" />
+
+          <label for="bmiHeight">Height (cm):</label>
+          <input type="number" id="bmiHeight" step="0.1" />
+
+          <button onclick="calculateBMI()">Calculate BMI</button>
+
+          <p id="bmiResult"></p>
+        </div>
+      </div>
+
+      <!-- EMI / LOAN CALCULATOR -->
+      <div id="emi" class="calc-section hidden">
+        <h2>EMI / Loan Calculator</h2>
+        <div class="small-form">
+          <label for="loanAmount">Loan amount (₹):</label>
+          <input type="number" id="loanAmount" />
+
+          <label for="loanRate">Annual interest rate (%):</label>
+          <input type="number" id="loanRate" step="0.01" />
+
+          <label for="loanTenure">Tenure:</label>
+          <input type="number" id="loanTenure" />
+
+          <select id="loanTenureType">
+            <option value="years">Years</option>
+            <option value="months">Months</option>
+          </select>
+
+          <button onclick="calculateEMI()">Calculate EMI</button>
+
+          <p id="emiResult"></p>
+        </div>
+      </div>
+      
+
+            <!-- TAX CALCULATOR (INDIA NEW REGIME - SIMPLE) -->
+      <div id="tax" class="calc-section hidden">
+        <h2>Tax Calculator (India – New Regime)</h2>
+        <div class="small-form">
+          <label for="taxIncome">Annual taxable income (₹):</label>
+          <input type="number" id="taxIncome" />
+
+          <button onclick="calculateTax()">Calculate Tax</button>
+
+          <label for="taxOut">Total tax payable (₹):</label>
+          <input type="text" id="taxOut" readonly />
+
+          <label for="taxEffectiveRate">Effective tax rate (% of income):</label>
+          <input type="text" id="taxEffectiveRate" readonly />
+        </div>
+      </div>
+
+           <!-- STATISTICAL CALCULATOR -->
+      <div id="statistical" class="calc-section hidden">
+        <h2>Statistical Calculator</h2>
+        <div class="small-form">
+          <label for="statsInput">Numbers (separate by comma or space):</label>
+          <input type="text" id="statsInput" placeholder="Example: 2, 5, 5, 9 10" />
+
+          <button onclick="calculateStats()">Calculate Statistics</button>
+
+          <label for="meanOut">Mean (average):</label>
+          <input type="text" id="meanOut" readonly />
+
+          <label for="medianOut">Median:</label>
+          <input type="text" id="medianOut" readonly />
+
+          <label for="modeOut">Mode (most frequent):</label>
+          <input type="text" id="modeOut" readonly />
+
+          <label for="stdOut">Standard deviation:</label>
+          <input type="text" id="stdOut" readonly />
+        </div>
+      </div>
+      <!-- CONSTRUCTION CALCULATOR -->
+      <div id="construction" class="calc-section hidden">
+        <h2>Construction Calculator</h2>
+        <div class="small-form">
+          <h3>Concrete volume</h3>
+          <label for="conLength">Length (m):</label>
+          <input type="number" id="conLength" step="0.01" />
+
+          <label for="conWidth">Width (m):</label>
+          <input type="number" id="conWidth" step="0.01" />
+
+          <label for="conThickness">Thickness (m):</label>
+          <input type="number" id="conThickness" step="0.01" />
+
+          <button onclick="calculateConcrete()">Calculate volume & weight</button>
+
+          <label for="conVolumeOut">Volume (m³):</label>
+          <input type="text" id="conVolumeOut" readonly />
+
+          <label for="conVolumeYardOut">Volume (yd³):</label>
+          <input type="text" id="conVolumeYardOut" readonly />
+
+          <label for="conWeightOut">Approx weight (kg):</label>
+          <input type="text" id="conWeightOut" readonly />
+
+          <h3>Area</h3>
+          <label for="areaLength">Length (m):</label>
+          <input type="number" id="areaLength" step="0.01" />
+
+          <label for="areaWidth">Width (m):</label>
+          <input type="number" id="areaWidth" step="0.01" />
+
+          <button onclick="calculateArea()">Calculate area</button>
+
+          <label for="areaSqmOut">Area (m²):</label>
+          <input type="text" id="areaSqmOut" readonly />
+
+          <label for="areaSqydOut">Area (yd²):</label>
+          <input type="text" id="areaSqydOut" readonly />
+        </div>
+      </div>
+
+                  <!-- UNIT CONVERTER -->
+      <div id="converter" class="calc-section hidden">
+        <h2>Unit Converter</h2>
+        <div class="small-form">
+          <label for="unitAmount">Value:</label>
+          <input type="number" id="unitAmount" step="0.001" />
+
+          <label for="unitCategory">Category:</label>
+          <select id="unitCategory" onchange="updateUnitOptions()">
+            <option value="length">Length</option>
+            <option value="weight">Weight</option>
+            <option value="volume">Volume</option>
+          </select>
+
+          <label for="unitFrom">From:</label>
+          <select id="unitFrom"></select>
+
+          <label for="unitTo">To:</label>
+          <select id="unitTo"></select>
+
+          <button onclick="convertUnit()">Convert</button>
+
+          <label for="unitResult">Result:</label>
+          <input type="text" id="unitResult" readonly />
+        </div>
+      </div>
+            <!-- INTEREST CALCULATOR -->
+      <div id="interest" class="calc-section hidden">
+        <h2>Interest Calculator (Simple Interest)</h2>
+        <div class="small-form">
+          <label for="siPrincipal">Principal amount (₹):</label>
+          <input type="number" id="siPrincipal" />
+
+          <label for="siRate">Annual rate (% per year):</label>
+          <input type="number" id="siRate" step="0.01" />
+
+          <p>Time (you can use years, or months, or days, or mix them):</p>
+
+          <label for="siYears">Years:</label>
+          <input type="number" id="siYears" />
+
+          <label for="siMonths">Months:</label>
+          <input type="number" id="siMonths" />
+
+          <label for="siDays">Days:</label>
+          <input type="number" id="siDays" />
+
+          <button onclick="calculateSimpleInterest()">Calculate Interest</button>
+
+          <p id="siResult"></p>
+        </div>
+      </div>
+
+            <!-- AGE CALCULATOR -->
+      <div id="age" class="calc-section hidden">
+        <h2>Age Calculator</h2>
+        <div class="small-form">
+          <p>Enter from and to dates. By default, “to date” is today.</p>
+
+          <label for="dob">Date of birth:</label>
+          <input type="date" id="dob" />
+
+          <label for="ageFrom">From date (optional):</label>
+          <input type="date" id="ageFrom" />
+
+          <label for="ageTo">To date (optional, default: today):</label>
+          <input type="date" id="ageTo" />
+
+          <button onclick="calculateAgeRange()">Calculate Age</button>
+
+          <p id="ageResult1"></p>
+          <p id="ageResult2"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- History panel (bottom) -->
+    <section class="history-panel">
+      <h2>History</h2>
+      <p class="history-title" id="historyTitle">Basic Calculator History</p>
+      <ul id="historyList"></ul>
+      <button class="clear-history-btn" onclick="clearCurrentHistory()">
+        Clear History
+      </button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

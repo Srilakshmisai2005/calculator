@@ -1,0 +1,255 @@
+/* Base page style */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f2e8dc; /* light tan */
+  color: #2c1b12;      /* dark brown text */
+}
+
+/* Header */
+.page-header {
+  background: #8b4513; /* saddle brown / russet family */
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+/* Main layout: calculator type | calculator | history */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  gap: 16px;
+  padding: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.category-panel {
+  grid-column: 1 / -1;
+}
+
+.calculator-panel {
+  grid-column: 1;
+}
+
+.history-panel {
+  grid-column: 2;
+}
+
+/* Panels */
+.history-panel,
+.calculator-panel,
+.category-panel {
+  background: #f3d9b1; /* tan */
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.category-panel h2,
+.calculator-panel h2,
+.history-panel h2 {
+  margin-top: 0;
+}
+
+/* History */
+.history-title {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #5c3621;
+}
+
+#historyList {
+  list-style: none;
+  padding-left: 0;
+  max-height: 180px;
+  overflow-y: auto;
+  margin: 0 0 10px 0;
+}
+
+#historyList li {
+  font-size: 14px;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.clear-history-btn {
+  width: 100%;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 8px;
+  background: #8b4513;
+  color: #fff;
+  cursor: pointer;
+}
+
+.clear-history-btn:hover {
+  background: #653010;
+}
+
+.category-panel select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #8b4513;
+  background: #f6e4cd;     /* tan background */
+  color: #2c1b12;          /* dark brown text */
+}
+
+.category-panel label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Calculator section */
+.calc-section {
+  display: block;
+}
+
+.calc-section.hidden {
+  display: none;
+}
+
+/* Calculator box */
+.calculator {
+  width: 100%;
+  background: #a0522d; /* sienna / russet */
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Display */
+.display {
+  width: 100%;
+  height: 60px;
+  font-size: 26px;
+  text-align: right;
+  padding: 10px;
+  border: 2px solid #2c1b12;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  background: #f5e6d3; /* light tan for display bg */
+}
+
+/* Buttons grid */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+button {
+  padding: 14px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #f5e6d3; /* tan instead of white */
+  color: #2c1b12;
+}
+
+button:hover {
+  background: #e4c79b;
+}
+
+/* Bottom row buttons */
+.bottom-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.bottom-buttons button {
+  flex: 1;
+}
+
+/* Clear & equal styles */
+/* Clear & equal styles – same clay color */
+.clear,
+.equal {
+  background: #b2713d; /* clay brown */
+  color: #fff;
+}
+
+/* Clear & equal styles – same clay color */
+.clear,
+.equal {
+  background: #b2713d; /* clay brown */
+  color: #fff;
+}
+
+.clear:hover,
+.equal:hover {
+  background: #995d32;
+}
+
+/* Backspace */
+.backspace {
+  background: #f5e6d3;
+}
+
+/* Responsive: small screens */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .category-panel,
+  .calculator-panel,
+  .history-panel {
+    grid-column: 1;
+  }
+
+  .history-panel,
+  .calculator-panel,
+  .category-panel {
+    width: 100%;
+  }
+
+  #historyList {
+    max-height: 150px;
+  }
+}
+.small-form {
+  background: #f6e4cd;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.small-form label {
+  display: block;
+  margin-top: 10px;
+}
+
+.small-form input,
+.small-form select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #8b4513;
+  background: #f0e1cc;
+}
+
+.small-form button {
+  margin-top: 12px;
+  width: 100%;
+  background: #b2713d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.small-form button:hover {
+  background: #995d32;
+}

@@ -237,10 +237,15 @@ function backspace() {
   }
 }
 
+// Round floating-point noise (e.g. 0.30000000000000004 -> 0.3)
+function cleanNumber(n) {
+  return typeof n === 'number' && isFinite(n) ? parseFloat(n.toPrecision(12)) : n;
+}
+
 function calculate() {
   try {
     const expression = display.value;
-    const result = eval(expression);
+    const result = cleanNumber(eval(expression));
 
     // add to history: "expression = result"
     addToHistory(`${expression} = ${result}`);
@@ -772,6 +777,11 @@ function convertUnit() {
 
 function insertSci(text) {
   const exprInput = document.getElementById('sciExpression');
+  // replace the starting "0" (or an old Error) instead of gluing text to it,
+  // otherwise "0sqrt(16)" is invalid; keep "0" for operators and "."
+  if (exprInput.value === 'Error' || (exprInput.value === '0' && !/^[-+*/^.]/.test(text))) {
+    exprInput.value = '';
+  }
   exprInput.value += text;
 }
 
@@ -820,11 +830,12 @@ function calculateSci() {
     const tanDeg = x => Math.tan((x * Math.PI) / 180);
     const log10 = x => Math.log10(x);
     const ln = x => Math.log(x);
+    const sqrt = x => Math.sqrt(x);
 
     // transform ** into Math.pow(a,b) in a simple way:
     // note: for simple student usage, we can allow ** directly; modern JS supports it.
     // so we just let ** stand.
-    const result = eval(expr); // uses Math functions and helpers [web:109][web:113][web:117]
+    const result = cleanNumber(eval(expr)); // uses Math functions and helpers [web:109][web:113][web:117]
 
     resultInput.value = result;
 
